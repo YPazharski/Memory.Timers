@@ -29,22 +29,22 @@ namespace Memory.Timers
             {
             }
             Validate(@"\*\s+: (\d+)\n", writer.ToString());
-/*Пример ответа
-*                   : 0
-*/
+            /*Пример ответа
+            *                   : 0
+            */
         }
 
-        //        [Test]
-        //        public void CustomTimerName()
-        //        {
-        //            var writer = new StringWriter();
-        //            using (Timer.Start(writer, "MyTimer"))
-        //            { }
-        //            Validate(@"MyTimer\s+: (\d+)\n", writer.ToString());
-        ///*Пример ответа
-        //MyTimer             : 0
-        //*/
-        //        }
+        [Test]
+        public void CustomTimerName()
+        {
+            var writer = new StringWriter();
+            using (Timer.Start(writer, "MyTimer"))
+            { }
+            Validate(@"MyTimer\s+: (\d+)\n", writer.ToString());
+            /*Пример ответа
+            MyTimer             : 0
+            */
+        }
 
         //        [Test]
         //        public void Nesting()

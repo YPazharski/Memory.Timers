@@ -13,10 +13,10 @@ namespace Memory.Timers
         TextWriter Writer { get; }
         Stopwatch Stopwatch { get; set; } = new Stopwatch();
         long ElapsedMs { get => Stopwatch.ElapsedMilliseconds; }
-        public string Name { get; } 
+        public string Name { get; } = string.Empty;
         public int Level { get; }
         bool IsDisposed { get; set; }
-        Timer(TextWriter writer, string name = "*", int level = 0) 
+        Timer(TextWriter writer, string name, int level = 0) 
         {
             Writer = writer;
             Name = name;
@@ -31,9 +31,9 @@ namespace Memory.Timers
             Writer.Write(reportLine);
         }
 
-        public static Timer Start(TextWriter writer)
+        public static Timer Start(TextWriter writer, string name = "*")
         {
-            return new Timer(writer);
+            return new Timer(writer, name);
         }
 
         private static string FormatReportLine(string timerName, int level, long value)
