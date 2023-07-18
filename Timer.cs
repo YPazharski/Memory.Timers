@@ -1,14 +1,41 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Memory.Timers
 {
-    public class Timer
+    public class Timer : IDisposable
     {
-        // Use this method in your solution to fit report formatting requirements from the tests
+        TextWriter Writer { get; }
+        Stopwatch Stopwatch { get; set; } = new Stopwatch();
+        long ElapsedMs { get => Stopwatch.ElapsedMilliseconds; }
+        public string Name { get; } 
+        public int Level { get; }
+        bool IsDisposed { get; set; }
+        Timer(TextWriter writer, string name = "*", int level = 0) 
+        {
+            Writer = writer;
+            Name = name;
+            Level = level;
+            Stopwatch.Start();
+        }
+
+        public void Dispose()
+        {
+            Stopwatch.Stop();
+            var reportLine = FormatReportLine(Name, Level, ElapsedMs);
+            Writer.Write(reportLine);
+        }
+
+        public static Timer Start(TextWriter writer)
+        {
+            return new Timer(writer);
+        }
+
         private static string FormatReportLine(string timerName, int level, long value)
         {
             var intro = new string(' ', level * 4) + timerName;
