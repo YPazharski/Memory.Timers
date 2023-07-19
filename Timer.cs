@@ -36,10 +36,10 @@ namespace Memory.Timers
             Report.AddFirst(reportLine);
             if (HadChildren)
                 AddRestReportLine();
-            if (Parent != null)
-                ReportToParent();
-            else
+            if (Parent == null)
                 WriteReport();
+            else
+                ReportToParent();
         }
 
         private void WriteReport()
