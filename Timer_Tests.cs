@@ -67,58 +67,58 @@ namespace Memory.Timers
         //    */
         //}
 
+        //[Test]
+        //public void DeepNestingStructure1()
+        //{
+        //    var writer = new StringWriter();
+        //    using (var timerA = Timer.Start(writer, "A"))
+        //    {
+        //        using (var timerB = timerA.StartChildTimer("B"))
+        //        {
+        //            using (timerB.StartChildTimer("C"))
+        //            { }
+        //        }
+        //    }
+        //    Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{8}C\s+: (\d+)\n[ ]{8}Rest\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)\n",
+        //             writer.ToString());
+
+        //    /* Пример ответа
+        //    A                   : 0
+        //        B               : 0
+        //            C           : 0
+        //            Rest        : 0
+        //        Rest            : 0
+        //    */
+        //}
+
         [Test]
-        public void DeepNestingStructure1()
+        public void DeepNestingStructure2()
         {
             var writer = new StringWriter();
-            using (var timerA = Timer.Start(writer, "A"))
+            using (var timer = Timer.Start(writer, "A"))
             {
-                using (var timerB = timerA.StartChildTimer("B"))
+                using (timer.StartChildTimer("B"))
+                { }
+                using (var timer2 = timer.StartChildTimer("C"))
                 {
-                    using (timerB.StartChildTimer("C"))
-                    { }
+                    using (timer2.StartChildTimer("D"))
+                    {
+
+                    }
                 }
             }
-            Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{8}C\s+: (\d+)\n[ ]{8}Rest\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)\n",
-                     writer.ToString());
+            Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{4}C\s+: (\d+)\n[ ]{8}D\s+: (\d+)\n[ ]{8}Rest\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)\n",
+                writer.ToString());
 
             /* Пример ответа
             A                   : 0
                 B               : 0
-                    C           : 0
+                C               : 0
+                    D           : 0
                     Rest        : 0
                 Rest            : 0
             */
         }
-
-        //        [Test]
-        //        public void DeepNestingStructure2()
-        //        {
-        //            var writer = new StringWriter();
-        //            using (var timer = Timer.Start(writer, "A"))
-        //            {
-        //                using (timer.StartChildTimer("B"))
-        //                { }
-        //                using (var timer2 = timer.StartChildTimer("C"))
-        //                { 
-        //                    using(timer2.StartChildTimer("D"))
-        //                    {
-
-        //                    }
-        //                }
-        //            }
-        //            Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{4}C\s+: (\d+)\n[ ]{8}D\s+: (\d+)\n[ ]{8}Rest\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)\n",
-        //                writer.ToString());
-
-        ///* Пример ответа
-        //A                   : 0
-        //    B               : 0
-        //    C               : 0
-        //        D           : 0
-        //        Rest        : 0
-        //    Rest            : 0
-        //*/
-        //        }
 
         //        [Test]
         //        public void DeepNestingStructure3()
