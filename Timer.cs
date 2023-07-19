@@ -12,10 +12,10 @@ namespace Memory.Timers
     {
         TextWriter Writer { get; }
         public string Name { get; } = string.Empty;
-        public Timer Parent { get; set; }
-        LinkedList<string> Report { get; set; }
+        Timer Parent { get; }
+        LinkedList<string> Report { get; }
         public int Level { get; }
-        Stopwatch Stopwatch { get; set; } = new Stopwatch();
+        Stopwatch Stopwatch { get; } = new Stopwatch();
         long Value { get => Stopwatch.ElapsedMilliseconds; }
         long ChildrenValue { get; set; }
         public bool HadChildren { get; private set; }
