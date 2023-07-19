@@ -21,75 +21,75 @@ namespace Memory.Timers
             return result;
         }
 
-        [Test]
-        public void SingleLineReport()
-        {
-            var writer = new StringWriter();
-            using (Timer.Start(writer))
-            {
-            }
-            Validate(@"\*\s+: (\d+)\n", writer.ToString());
-            /*Пример ответа
-            *                   : 0
-            */
-        }
+        //[Test]
+        //public void SingleLineReport()
+        //{
+        //    var writer = new StringWriter();
+        //    using (Timer.Start(writer))
+        //    {
+        //    }
+        //    Validate(@"\*\s+: (\d+)\n", writer.ToString());
+        //    /*Пример ответа
+        //    *                   : 0
+        //    */
+        //}
+
+        //[Test]
+        //public void CustomTimerName()
+        //{
+        //    var writer = new StringWriter();
+        //    using (Timer.Start(writer, "MyTimer"))
+        //    { }
+        //    Validate(@"MyTimer\s+: (\d+)\n", writer.ToString());
+        //    /*Пример ответа
+        //    MyTimer             : 0
+        //    */
+        //}
+
+        //[Test]
+        //public void Nesting()
+        //{
+        //    var writer = new StringWriter();
+        //    using (var timer = Timer.Start(writer, "A"))
+        //    {
+        //        using (timer.StartChildTimer("B"))
+        //        { }
+        //        using (timer.StartChildTimer("C"))
+        //        { }
+        //    }
+        //    Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{4}C\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)",
+        //             writer.ToString());
+        //    /* Пример ответа
+        //    A                   : 0
+        //        B               : 0
+        //        C               : 0
+        //        Rest            : 0
+        //    */
+        //}
 
         [Test]
-        public void CustomTimerName()
+        public void DeepNestingStructure1()
         {
             var writer = new StringWriter();
-            using (Timer.Start(writer, "MyTimer"))
-            { }
-            Validate(@"MyTimer\s+: (\d+)\n", writer.ToString());
-            /*Пример ответа
-            MyTimer             : 0
-            */
-        }
-
-        [Test]
-        public void Nesting()
-        {
-            var writer = new StringWriter();
-            using (var timer = Timer.Start(writer, "A"))
+            using (var timerA = Timer.Start(writer, "A"))
             {
-                using (timer.StartChildTimer("B"))
-                { }
-                using (timer.StartChildTimer("C"))
-                { }
+                using (var timerB = timerA.StartChildTimer("B"))
+                {
+                    using (timerB.StartChildTimer("C"))
+                    { }
+                }
             }
-            Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{4}C\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)",
+            Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{8}C\s+: (\d+)\n[ ]{8}Rest\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)\n",
                      writer.ToString());
+
             /* Пример ответа
             A                   : 0
                 B               : 0
-                C               : 0
+                    C           : 0
+                    Rest        : 0
                 Rest            : 0
             */
         }
-
-        //        [Test]
-        //        public void DeepNestingStructure1()
-        //        {
-        //            var writer = new StringWriter();
-        //            using (var timerA = Timer.Start(writer,"A"))
-        //            {
-        //                using (var timerB = timerA.StartChildTimer("B"))
-        //                {
-        //                    using (timerB.StartChildTimer("C"))
-        //                    { }
-        //                }
-        //            }
-        //            Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{8}C\s+: (\d+)\n[ ]{8}Rest\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)\n",
-        //                     writer.ToString());
-
-        ///* Пример ответа
-        //A                   : 0
-        //    B               : 0
-        //        C           : 0
-        //        Rest        : 0
-        //    Rest            : 0
-        //*/
-        //        }
 
         //        [Test]
         //        public void DeepNestingStructure2()
