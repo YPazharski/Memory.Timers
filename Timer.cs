@@ -21,9 +21,7 @@ namespace Memory.Timers
         public bool HadChildren { get; private set; }
         Timer(TextWriter writer, string name, Timer parent = null, int level = 0) 
         {
-            if (writer == null)
-                throw new ArgumentNullException(nameof(writer));
-            Writer = writer;
+            Writer = writer ?? throw new ArgumentNullException(nameof(writer));
             Name = name;
             Parent = parent;
             Report = new LinkedList<string>();
@@ -54,6 +52,7 @@ namespace Memory.Timers
 
         private void ReportToParent()
         {
+            Parent.ChildrenValue += Value;
             foreach (var line in Report)
             {
                 Parent.Report.AddLast(line);
