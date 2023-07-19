@@ -46,26 +46,26 @@ namespace Memory.Timers
             */
         }
 
-        //        [Test]
-        //        public void Nesting()
-        //        {
-        //            var writer = new StringWriter();
-        //            using (var timer = Timer.Start(writer, "A"))
-        //            {
-        //                using (timer.StartChildTimer("B"))
-        //                { }
-        //                using (timer.StartChildTimer("C"))
-        //                { }
-        //            }
-        //            Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{4}C\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)",
-        //                     writer.ToString());
-        ///* Пример ответа
-        //A                   : 0
-        //    B               : 0
-        //    C               : 0
-        //    Rest            : 0
-        //*/
-        //        }
+        [Test]
+        public void Nesting()
+        {
+            var writer = new StringWriter();
+            using (var timer = Timer.Start(writer, "A"))
+            {
+                using (timer.StartChildTimer("B"))
+                { }
+                using (timer.StartChildTimer("C"))
+                { }
+            }
+            Validate(@"A\s+: (\d+)\n[ ]{4}B\s+: (\d+)\n[ ]{4}C\s+: (\d+)\n[ ]{4}Rest\s+: (\d+)",
+                     writer.ToString());
+            /* Пример ответа
+            A                   : 0
+                B               : 0
+                C               : 0
+                Rest            : 0
+            */
+        }
 
         //        [Test]
         //        public void DeepNestingStructure1()
